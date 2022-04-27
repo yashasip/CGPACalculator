@@ -441,7 +441,7 @@ class Window {
         helpItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 // help window content
-                String helpContent = "USN: 4S019pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp\nName:\nSGPA 1: 8.8\nSGPA 2:\n SGPA 3:\n SGPA 4:\n SGPA 5:\n SGPA 6:\n SGPA 7:\n SGPA 8:\n CGPA: 8.8\nPercentage: 80.5\nSemester 1:\nSubjectCode	Credits	Score\n18MAT11		4		84\n18PHY12		4		81\n18ELE13		3		68\n18CIV14		3		70\n18EGDL15		3		90\n18PHYL16		1		98\n18ELEL17		1		91\n18EGH18		1		83\nSGPA 1: 8.8\nSemester 2:\nSubjectCode	Credits	Score\n18MAT21		4		89\n18CHE22		4		91\n18CPS23		3		87\n18ELN24		3		92\n18ME25		3		87\n18CHEL26		1		86\n18CPL27		1		90\n18EGH28		1		86\nSGPA 2:\nSemester 3:\nSubjectCode	Credits	Score\n18MAT31		4		59\n18CS32				64\n18CS33				74\n18CS34				73\n18CS35				63\n18CS36		1		87\n18CSL37		1		93\n18CSL38				86\n18CPC39				80\nSGPA 3:\n";
+                String helpContent = "";
 
                 // helpWindow Components
                 helpWindow = new JFrame("Help - CGPA Calculator");

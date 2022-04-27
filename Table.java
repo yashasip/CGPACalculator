@@ -22,8 +22,6 @@ public class Table {
     int sem;
     static Calculation calculator = new Calculation();
     ArrayList<ArrayList<String>> tableData = new ArrayList<ArrayList<String>>();
-
-    String[][][] semTableData = {{ { "18MAT11", "4", "84" }, { "18PHY12", "4", "81" }, { "18ELE13", "3", "68" }, { "18CIV14", "3", "70" },{ "18EGDL15", "3", "90" }, { "18PHYL16", "1", "98" }, { "18ELEL17", "1", "91" },{ "18EGH18", "1", "83" } },{ { "18MAT21", "4", "89" }, { "18CHE22", "4", "91" }, { "18CPS23", "3", "87" }, { "18ELN24", "3", "92" },{ "18ME25", "3", "87" }, { "18CHEL26", "1", "86" }, { "18CPL27", "1", "90" },{ "18EGH28", "1", "86" } } ,{ { "18MAT31", "3", "59" }, { "18CS32", "4", "64" }, { "18CS33", "3", "74" }, { "18CS34", "3", "73" },{ "18CS35", "3", "63" }, { "18CS36", "3", "87" }, { "18CSL37", "2", "93" },{ "18CSL38", "2", "86" },{ "18CPC39", "1", "80" }}};
     
     // each instance assigned within semester and sets up table
     public Table(int sem) {
