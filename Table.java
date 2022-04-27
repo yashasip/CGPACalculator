@@ -131,6 +131,16 @@ public class Table {
         }
     }
 
+    // sets up the table
+    public void setTableData(ArrayList<ArrayList<String>> readTableData){
+        tableModel.setRowCount(readTableData.size()); // initialize rows to be filled
+        for (int i=0; i < readTableData.size(); i++){ // fill data in the row
+            table.setValueAt(readTableData.get(i).get(0), i , 0);
+            table.setValueAt(readTableData.get(i).get(1), i , 1);
+            table.setValueAt(readTableData.get(i).get(2), i , 2);            
+        }
+    }
+
     // clear contents of table
     public void clearTable() {
         // deletes all rows to clear data

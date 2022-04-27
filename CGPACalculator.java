@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.io.File;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.ArrayList;
+
 
 class Window {
 
@@ -22,7 +26,9 @@ class Window {
 
     JMenuBar windowMenuBar;
     JMenu fileMenu, tableMenu, aboutMenu;
-    JMenuItem saveItem, exitItem, computeSgpaItem, clearTableItem, clearAllTablesItem, helpItem;
+    JMenuItem openItem, saveItem, exitItem, computeSgpaItem, clearTableItem, clearAllTablesItem, helpItem;
+
+    JFileChooser fileDialog;
 
     String usn, name; // stores usn and name with label
 
@@ -33,6 +39,9 @@ class Window {
 
         // menus & menuItems
         fileMenu = new JMenu("File");
+        openItem = new JMenuItem("Open(beta)");
+        fileMenu.add(openItem);
+        fileMenu.add(new JSeparator());
         saveItem = new JMenuItem("Save");
         fileMenu.add(saveItem);
         fileMenu.add(new JSeparator());
@@ -248,9 +257,8 @@ class Window {
     }
 
     // gets computed sgpa value and sets all Labels
-    private void setSgpa() {
+    private void setSgpa(int currentSemTable) {
         // getting table that is being viewed currently
-        int currentSemTable = semComboBox.getSelectedIndex();
         try {
             // gets sgpa of current table
             String currentSgpa = sgpaTables[currentSemTable].getSgpa();
@@ -273,8 +281,60 @@ class Window {
         writeToFile();
     }
 
-    private void addActionListeners() {
+    public void openFile() {
+        ArrayList<String> finalGradeSheetData = new ArrayList<>();
+        ArrayList<ArrayList<ArrayList<String>>> semestersTableData = new ArrayList<>();
+        FileHandler readFile;
+        int fieldStatus; // to hold status if file selected or not
+
+        fileDialog = new JFileChooser();
+        fileDialog.setDialogTitle("Open Grades Data File");
+        fileDialog.setFileFilter(new FileNameExtensionFilter(null, "txt")); // only text files
+        fieldStatus = fileDialog.showOpenDialog(window);
+
+        // return when file is not selected or error occurs
+        if(fieldStatus==JFileChooser.CANCEL_OPTION) 
+            return;
+        else if(fieldStatus==JFileChooser.ERROR_OPTION){
+            JOptionPane.showMessageDialog(window, "Some Error Occurred", "Try Again!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
+        readFile = new FileHandler(fileDialog.getSelectedFile());
+        
+        // read file data
+        finalGradeSheetData = readFile.readFinalGradeCard();
+        semestersTableData = readFile.readSemTable();
+
+        // setup textbox and name
+        usn = finalGradeSheetData.get(0);
+        usnTextBox.setText(usn);
+        usnPaneLabel.setText("USN: " + usn.toUpperCase());
+        
+        name = finalGradeSheetData.get(1);
+        nameTextBox.setText(name);
+        namePaneLabel.setText("Name: " + name.toUpperCase());
+
+        clearAllTables();
+        // setup semester tables
+        for(int i = 0; i < sgpaTables.length; i++){
+            if(semestersTableData.get(i).size() <= 0)
+                continue;
+            sgpaTables[i].setTableData(semestersTableData.get(i));
+            setSgpa(i);
+        }
+    }
+
+    // clears all table data
+    private void clearAllTables(){
+        for (int i = 0; i < SEM_COUNT; i++) {
+            sgpaTables[i].clearTable();
+            // sets label values to default after clearing
+            setGradeLabels("", i);
+        }
+    }
+
+    private void addActionListeners() {
         usnTextBox.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent event) {
                 // limiting usn string length to 15
@@ -318,20 +378,19 @@ class Window {
                 // set sgpa label by refering sgpaPaneLabels
                 String currentSgpa = "SGPA = " + sgpaPaneLabels[currentSemTable].getText().substring(7);
                 sgpaLabel.setText(currentSgpa);
-
             };
         });
 
         computeSgpaBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                    setSgpa();
+                    setSgpa(semComboBox.getSelectedIndex());
                 }
             }
         );
         // for menu item
         computeSgpaItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                setSgpa();
+                setSgpa(semComboBox.getSelectedIndex());
             }
         });
 
@@ -341,6 +400,12 @@ class Window {
             }
         });
         // for menu item
+        openItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                openFile();
+            }
+        });
+
         saveItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 saveFile();
@@ -369,11 +434,7 @@ class Window {
 
         clearAllTablesItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                for (int i = 0; i < SEM_COUNT; i++) {
-                    sgpaTables[i].clearTable();
-                    // sets label values to default after clearing
-                    setGradeLabels("", i);
-                }
+                clearAllTables();
             }
         });
 
