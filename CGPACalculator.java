@@ -17,7 +17,7 @@ class Window {
     JButton computeSgpaBtn, saveBtn;
 
     JTabbedPane tabBar;
-    JLabel sgpaLabel, sgpaPaneLabels[], cgpaLabel, percentLabel, namePaneLabel, usnPaneLabel;
+    JLabel sgpaLabel, sgpaPaneLabels[], cgpaLabel, percentLabel, namePaneLabel, usnPaneLabel, chooseSemesterLabel;
     JPanel sgpaPanel, finalGradePanel;
     JScrollPane tableScrollPane;
     Table[] sgpaTables = new Table[SEM_COUNT];
@@ -85,6 +85,10 @@ class Window {
         for (int i = 0; i < SEM_COUNT; i++) {
             semChoices[i] = "SEM " + String.valueOf(i + 1);
         }
+
+        chooseSemesterLabel = new JLabel("Semester:");
+        chooseSemesterLabel.setBounds(248, 4, 70, 20);
+        sgpaPanel.add(chooseSemesterLabel);
 
         semComboBox = new JComboBox<>(semChoices);
         semComboBox.setBounds(310, 5, 70, 20);
