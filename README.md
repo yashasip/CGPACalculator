@@ -1,7 +1,7 @@
 # CGPA Calculator
 A GUI App which computes VTU SGPA, CGPA Grade and Percentage built using Java Swings.
 
-# Highlights
+## Highlights
 - Save: Saves Marks scored in each Semester for every Subject as a Text File.
 - Accessing: User can Reopen the Saved Text File in the app, View it, Add and Update data.
 
